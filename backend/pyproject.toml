@@ -1,0 +1,40 @@
+[project]
+name = "workflow-runner-backend"
+version = "0.1.0"
+description = "AI workflow runner: FastAPI API and a queue worker for multi-step AI workflows with human review."
+readme = "../README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "anthropic",
+    "fastapi",
+    "httpx",
+    "pydantic",
+    "pydantic-settings",
+    "uvicorn[standard]",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "ruff",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF", "ANN"]
+ignore = ["ANN401"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["ANN"]

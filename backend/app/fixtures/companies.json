@@ -1,0 +1,68 @@
+[
+  {
+    "domain": "harborline-freight.example",
+    "name": "Harborline Freight",
+    "industry": "Logistics",
+    "size": "120 employees",
+    "location": "Rotterdam, Netherlands",
+    "about": "Harborline Freight runs mid-size container trucking between the port and inland warehouses. They quote most jobs by email and track shipments in a mix of spreadsheets and a legacy TMS.",
+    "signals": [
+      {"source": "careers page", "text": "Hiring two operations coordinators to handle quote requests and shipment status emails."},
+      {"source": "blog", "text": "Post from the COO: quote turnaround slipped to 26 hours during peak season."},
+      {"source": "product page", "text": "Customers can request a quote through a web form that goes to a shared inbox."},
+      {"source": "news", "text": "Opened a second depot in Venlo this spring and plans to add 30 trucks."}
+    ]
+  },
+  {
+    "domain": "brightpath-clinics.example",
+    "name": "Brightpath Clinics",
+    "industry": "Healthcare",
+    "size": "45 employees",
+    "location": "Austin, Texas",
+    "about": "Brightpath Clinics is a group of four physiotherapy clinics. Patients book by phone or through an online form, and front desk staff copy intake details into the practice management system by hand.",
+    "signals": [
+      {"source": "reviews", "text": "Several patient reviews mention long hold times when calling to book."},
+      {"source": "careers page", "text": "Looking for a part-time front desk assistant for data entry and appointment reminders."},
+      {"source": "news", "text": "Opening a fifth clinic in Round Rock next quarter."}
+    ]
+  },
+  {
+    "domain": "ledgerleaf.example",
+    "name": "Ledgerleaf",
+    "industry": "B2B software",
+    "size": "30 employees",
+    "location": "Toronto, Canada",
+    "about": "Ledgerleaf sells bookkeeping software to small agencies. The support team of three answers tickets in a shared help desk and writes most replies from scratch.",
+    "signals": [
+      {"source": "status page", "text": "Two incidents last month related to bank sync delays."},
+      {"source": "careers page", "text": "Hiring a support engineer; the posting mentions 400 tickets a week."},
+      {"source": "changelog", "text": "Shipped multi-currency invoices, with a note that docs are still in progress."}
+    ]
+  },
+  {
+    "domain": "northwind-outdoor.example",
+    "name": "Northwind Outdoor",
+    "industry": "E-commerce",
+    "size": "18 employees",
+    "location": "Denver, Colorado",
+    "about": "Northwind Outdoor sells camping gear online through its own store and two marketplaces. Product data is edited separately in each channel.",
+    "signals": [
+      {"source": "store", "text": "Some products show different prices and stock levels across channels."},
+      {"source": "careers page", "text": "Hiring a catalog assistant to keep listings in sync."},
+      {"source": "news", "text": "Launched a rental program for tents and packs this summer."}
+    ]
+  },
+  {
+    "domain": "quillstone-legal.example",
+    "name": "Quillstone Legal",
+    "industry": "Legal services",
+    "size": "60 employees",
+    "location": "Manchester, United Kingdom",
+    "about": "Quillstone Legal is a commercial law firm. New client intake runs through email and a conflict check that paralegals do manually against an internal list.",
+    "signals": [
+      {"source": "careers page", "text": "Hiring a paralegal focused on client onboarding and conflict checks."},
+      {"source": "blog", "text": "Article on reducing onboarding time for new clients from two weeks to five days."},
+      {"source": "news", "text": "Merged with a smaller firm and doubled its corporate team."}
+    ]
+  }
+]

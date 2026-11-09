@@ -1,0 +1,69 @@
+{
+  "lead_outreach": [
+    {
+      "label": "Operations lead at a freight company",
+      "input": {
+        "name": "Marta de Vries",
+        "email": "marta@harborline-freight.example",
+        "role": "Head of Operations",
+        "company_domain": "harborline-freight.example",
+        "note": "Filled in the contact form after reading a post on quote automation.",
+        "simulate_transient_failure": true
+      }
+    },
+    {
+      "label": "Practice manager at a clinic group",
+      "input": {
+        "name": "Daniel Ortiz",
+        "email": "daniel.ortiz@brightpath-clinics.example",
+        "role": "Practice Manager",
+        "company_domain": "brightpath-clinics.example",
+        "note": "Asked about cutting down manual intake work.",
+        "simulate_transient_failure": true
+      }
+    },
+    {
+      "label": "Unknown company (fails cleanly)",
+      "input": {
+        "name": "Sam Lee",
+        "email": "sam@unknown-co.example",
+        "role": "Founder",
+        "company_domain": "unknown-co.example",
+        "note": "",
+        "simulate_transient_failure": false
+      }
+    }
+  ],
+  "ticket_triage": [
+    {
+      "label": "Charged twice this month",
+      "input": {
+        "customer_name": "Priya Raman",
+        "email": "priya@studio-kite.example",
+        "plan": "business",
+        "subject": "Charged twice for November",
+        "message": "Hi, I just noticed two charges of $49 on our card for this month's subscription. Can you refund the duplicate? This is the second time this has happened and it's frustrating."
+      }
+    },
+    {
+      "label": "Bank sync stopped working",
+      "input": {
+        "customer_name": "Tom Becker",
+        "email": "tom@becker-design.example",
+        "plan": "team",
+        "subject": "Bank sync not updating since Friday",
+        "message": "Our bank feed hasn't pulled any transactions since Friday. I tried disconnecting and reconnecting but I get an error that says 'sync failed'. We need this working before month end."
+      }
+    },
+    {
+      "label": "How do I export reports",
+      "input": {
+        "customer_name": "Alicia Gomez",
+        "email": "alicia@fernway.example",
+        "plan": "free",
+        "subject": "Exporting a profit and loss report",
+        "message": "Hello! Is there a way to export the profit and loss report as a spreadsheet? I'd like to share it with my accountant. Thanks for the great product."
+      }
+    }
+  ]
+}

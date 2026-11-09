@@ -1,0 +1,19 @@
+node_modules/
+.next/
+.open-next/
+.wrangler/
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+
+# Backend runtime data (SQLite)
+backend/data/
+AGENTS.md
