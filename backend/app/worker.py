@@ -14,15 +14,18 @@ import logging
 import os
 import signal
 import socket
+import time
 
 from app.db import Database
 from app.engine import Engine
 from app.providers import build_provider
 from app.queue import LeaseLost, SqliteQueue
+from app.retention import prune
 from app.settings import Settings, get_settings
 from app.webhook import WebhookSender
 
 logger = logging.getLogger("worker")
+PRUNE_EVERY_SECONDS = 300
 
 
 def build_engine(settings: Settings, db: Database) -> Engine:
@@ -85,7 +88,19 @@ async def main() -> None:
     for sig in (signal.SIGINT, signal.SIGTERM):
         loop.add_signal_handler(sig, stop.set)
 
+    last_prune = 0.0
     while not stop.is_set():
+        if (
+            settings.demo_retention_minutes > 0
+            and time.monotonic() - last_prune > PRUNE_EVERY_SECONDS
+        ):
+            last_prune = time.monotonic()
+            try:
+                removed = prune(db, settings.demo_retention_minutes * 60)
+                if any(removed.values()):
+                    logger.info("Pruned old demo data: %s", removed)
+            except Exception:
+                logger.exception("Prune failed")
         try:
             result = await run_once(engine, worker_id)
         except Exception:

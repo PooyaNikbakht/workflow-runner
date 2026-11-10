@@ -42,6 +42,9 @@ class Settings(BaseSettings):
     # Pacing so a demo run is watchable. Set to 0 in tests.
     step_delay_seconds: float = 1.0
 
+    # Public demo: forget runs and deliveries older than this many minutes (0 keeps everything).
+    demo_retention_minutes: float = 0
+
     # SSE
     sse_poll_seconds: float = 0.3
     sse_keepalive_seconds: float = 15.0
