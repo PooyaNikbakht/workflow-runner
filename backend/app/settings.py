@@ -27,6 +27,12 @@ class Settings(BaseSettings):
 
     # HTTP
     cors_origins: str = "http://localhost:3050"
+    # Requests per minute per client IP on /api/* (0 turns the limit off). The UI polls at most
+    # 30 a minute per tab, so the default leaves room for several tabs behind one address.
+    rate_limit_per_minute: int = 300
+    # Header that carries the real client IP behind a proxy. Cloudflare sets this one. Only trust
+    # it when the API is reachable through that proxy alone; set it empty to use the socket peer.
+    client_ip_header: str = "CF-Connecting-IP"
 
     # Worker
     lease_seconds: float = 30.0

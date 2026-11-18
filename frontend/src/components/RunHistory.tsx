@@ -1,34 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Card, Notice, Spinner, StatusPill } from "@/components/ui";
 import { api } from "@/lib/api";
 import { relative } from "@/lib/format";
 import type { RunSummary } from "@/lib/types";
+import { usePolling } from "@/lib/usePolling";
 
 export function RunHistory() {
   const [runs, setRuns] = useState<RunSummary[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    let alive = true;
-    const load = () =>
-      api.runs().then(
-        (r) => {
-          if (!alive) return;
-          setRuns(r);
-          setError(null);
-        },
-        (e: Error) => alive && setError(e.message),
-      );
-    load();
-    const timer = setInterval(load, 3000);
-    return () => {
-      alive = false;
-      clearInterval(timer);
-    };
-  }, []);
+  usePolling(async () => {
+    try {
+      setRuns(await api.runs());
+      setError(null);
+    } catch (e) {
+      setError((e as Error).message);
+      throw e;
+    }
+  }, 3000);
 
   return (
     <section aria-labelledby="history-heading" className="mt-12">

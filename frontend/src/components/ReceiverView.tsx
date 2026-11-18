@@ -1,36 +1,28 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useConfig } from "@/components/ConfigProvider";
 import { IconCheck, IconX } from "@/components/icons";
 import { Card, Notice, Spinner, cx } from "@/components/ui";
 import { api } from "@/lib/api";
 import { clock, relative } from "@/lib/format";
 import type { Delivery } from "@/lib/types";
+import { usePolling } from "@/lib/usePolling";
 
 export function ReceiverView() {
   const config = useConfig();
   const [items, setItems] = useState<Delivery[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    let alive = true;
-    const load = () =>
-      api.deliveries().then(
-        (d) => {
-          if (!alive) return;
-          setItems(d);
-          setError(null);
-        },
-        (e: Error) => alive && setError(e.message),
-      );
-    load();
-    const timer = setInterval(load, 2000);
-    return () => {
-      alive = false;
-      clearInterval(timer);
-    };
-  }, []);
+  usePolling(async () => {
+    try {
+      setItems(await api.deliveries());
+      setError(null);
+    } catch (e) {
+      setError((e as Error).message);
+      throw e;
+    }
+  }, 2000);
 
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 sm:py-14">
