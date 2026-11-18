@@ -20,6 +20,7 @@ from app.db import Database, dumps, loads, now
 from app.engine import Conflict, Engine, NotFound
 from app.models import ReviewDecision
 from app.queue import SqliteQueue
+from app.ratelimit import RateLimitMiddleware
 from app.settings import Settings, get_settings
 from app.states import TERMINAL_RUN
 from app.webhook import IDEMPOTENCY_HEADER, SIGNATURE_HEADER, verify
@@ -46,6 +47,13 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.state.db = db
     app.state.engine = engine
     app.state.settings = settings
+    # Added before CORS, so CORS wraps it and a 429 still carries CORS headers.
+    if settings.rate_limit_per_minute > 0:
+        app.add_middleware(
+            RateLimitMiddleware,
+            per_minute=settings.rate_limit_per_minute,
+            ip_header=settings.client_ip_header,
+        )
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origin_list,

@@ -139,6 +139,8 @@ Backend (`backend/.env`):
 | `ANTHROPIC_EFFORT` | `medium` | `low` to `max`, sent as `output_config.effort`. |
 | `DATA_DIR` | `./data` | Where the SQLite file lives. |
 | `CORS_ORIGINS` | `http://localhost:3050` | Allowed frontend origins. |
+| `RATE_LIMIT_PER_MINUTE` | `300` | Requests per minute per client IP on `/api/*`; over it the API answers 429 with `Retry-After`. CORS preflights are not counted. `0` turns it off. |
+| `CLIENT_IP_HEADER` | `CF-Connecting-IP` | Header holding the real client IP behind a proxy. Only trust it if the API is reachable through that proxy alone; empty uses the socket address. |
 | `LEASE_SECONDS` | `30` | How long a worker owns a job before another may take it. |
 | `RETRY_BASE_SECONDS` / `RETRY_MAX_SECONDS` | `2` / `60` | Exponential backoff base and cap. |
 | `WEBHOOK_URL` | the built-in mock receiver | Where the send step posts. |
@@ -158,3 +160,5 @@ Frontend (`frontend/.env.local`):
 ## Deploy notes
 
 Nothing is deployed from this repo. The API and the worker are two long-running processes that share a database, so the natural fit is a small VM or a container platform that runs both (Fly.io, Render, Railway, or Cloud Run with an always-on worker), with Postgres replacing SQLite once there is more than one host. The frontend is a standard Next.js app.
+
+The API limits each client IP in memory (see `RATE_LIMIT_PER_MINUTE`), which is per process; with several API processes, add a limit at the edge too. The UI polls only while its tab is visible and backs off after a failed request.

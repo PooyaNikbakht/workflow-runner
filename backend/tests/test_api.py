@@ -121,3 +121,38 @@ def test_receiver_checks_signature_and_dedupes(client, settings):
         ("k2", 1, False),
         ("k1", 2, True),
     ]
+
+
+def test_rate_limit_returns_429_with_cors_and_retry_after(settings):
+    from fastapi.testclient import TestClient
+
+    from app.main import create_app
+
+    settings.rate_limit_per_minute = 3
+    origin = {"Origin": "http://localhost:3050"}
+    with TestClient(create_app(settings)) as c:
+        for _ in range(3):
+            assert c.get("/api/runs", headers=origin).status_code == 200
+        # Preflights are not counted, and other IPs have their own budget.
+        assert (
+            c.options(
+                "/api/runs", headers={**origin, "Access-Control-Request-Method": "GET"}
+            ).status_code
+            == 200
+        )
+        r = c.get("/api/runs", headers=origin)
+        assert r.status_code == 429
+        assert 1 <= int(r.headers["retry-after"]) <= 61
+        assert r.headers["access-control-allow-origin"] == "http://localhost:3050"
+        assert "slow down" in r.json()["detail"]
+        assert c.get("/api/runs", headers={"CF-Connecting-IP": "203.0.113.9"}).status_code == 200
+
+
+def test_rate_limit_can_be_turned_off(settings):
+    from fastapi.testclient import TestClient
+
+    from app.main import create_app
+
+    settings.rate_limit_per_minute = 0
+    with TestClient(create_app(settings)) as c:
+        assert all(c.get("/api/runs").status_code == 200 for _ in range(20))

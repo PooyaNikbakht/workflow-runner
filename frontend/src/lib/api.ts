@@ -24,14 +24,18 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   try {
     res = await fetch(`${site.apiUrl}${path}`, {
       ...init,
-      headers: { "Content-Type": "application/json", ...init?.headers },
+      // Only requests with a body send Content-Type; on a GET it would force a CORS preflight.
+      headers: { ...(init?.body ? { "Content-Type": "application/json" } : {}), ...init?.headers },
       cache: "no-store",
     });
   } catch {
     throw new ApiError("Can't reach the API. Is it running on port 8050?", 0);
   }
   if (!res.ok) {
-    let message = `Request failed (${res.status}).`;
+    let message =
+      res.status === 429
+        ? "Too many requests. Please wait a moment and try again."
+        : `Request failed (${res.status}).`;
     let fields: { field: string; message: string }[] = [];
     try {
       const body = await res.json();
