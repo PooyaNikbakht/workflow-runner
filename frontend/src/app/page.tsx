@@ -8,7 +8,7 @@ const STEPS = [
   },
   {
     title: "Pick a sample",
-    text: "The details fill in for you. They are made-up customers, and you can edit anything.",
+    text: "The details fill in for you. Try it with sample customers, and edit anything you like.",
   },
   {
     title: "Start the run",

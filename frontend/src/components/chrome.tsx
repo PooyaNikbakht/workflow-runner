@@ -93,11 +93,10 @@ export function Footer() {
     <footer className="mt-16 border-t border-line">
       <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <p>
-          Built by{" "}
+          Website by{" "}
           <a href={site.portfolioUrl} className="font-medium text-ink underline-offset-4 hover:underline">
             {site.author}
           </a>
-          . Companies, leads and tickets in the samples are fictional.
         </p>
         <a href={site.githubUrl} className="inline-flex items-center gap-1.5 hover:text-ink">
           <IconGithub size={15} /> GitHub
